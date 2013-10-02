@@ -1,0 +1,19 @@
+extends layout
+
+block head
+    script(type='text/javascript', src='/javascripts/src/controller/snippetlistcontroller.js')
+
+block content
+  div.container(ng-controller="SnippetListController", ng-init="setSnippets( #{JSON.stringify(snippets)} )")
+    h1= title
+    div.snippetlist
+      div.snippet.star(ng-repeat="snippet in snippets | filter:starFilter")
+        span.star.filled Unstar
+        div.title {{snippet.title}}
+        pre.code
+          code {{snippet.code}}
+      div.snippet.nostar(ng-repeat="snippet in snippets | filter:noStarFilter")
+        span.star.empty Star
+        div.title {{snippet.title}}
+        pre.code
+          code {{snippet.code}}
