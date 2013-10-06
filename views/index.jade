@@ -1,19 +1,27 @@
 extends layout
 
 block head
+    script(type='text/javascript', src='/javascripts/src/SnippetModule.js')
     script(type='text/javascript', src='/javascripts/src/controller/snippetlistcontroller.js')
 
 block content
   div.container(ng-controller="SnippetListController", ng-init="setSnippets( #{JSON.stringify(snippets)} )")
+
     h1= title
-    div.snippetlist
-      div.snippet.star(ng-repeat="snippet in snippets | filter:starFilter")
-        span.star.filled Unstar
-        div.title {{snippet.title}}
-        pre.code
-          code {{snippet.code}}
-      div.snippet.nostar(ng-repeat="snippet in snippets | filter:noStarFilter")
-        span.star.empty Star
-        div.title {{snippet.title}}
-        pre.code
-          code {{snippet.code}}
+    tabset
+      tab(heading="Snippet List")
+        div.row.content
+          div.snippetlist
+            div.snippet(ng-repeat="snippet in snippets")
+              div.title {{snippet.title}}
+              pre.code
+                code {{snippet.code}}
+      tab(heading="Add New Snippet")
+        div.row.content
+          form.addnew(novalidate, ng-submit="add()")
+            div.row
+              input.title(ng-model="newSnippet.title", type="text" placeholder="Title")
+            div.row
+              textarea.code(ng-model="newSnippet.code", placeholder="Snippet Code")
+            div.row
+              button.btn.btn-primary(type="submit") Add Snippet

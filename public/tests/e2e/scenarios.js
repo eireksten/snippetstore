@@ -3,26 +3,20 @@
 /* http://docs.angularjs.org/guide/dev_guide.e2e-testing */
 
 describe('Todo list', function() {
-  beforeEach(function() {
-    browser().navigateTo('/');
-    sleep(1);
-  });
+    beforeEach(function() {
+        browser().navigateTo('/');
+        sleep(1);
+    });
 
-  it("should move snipped to correct list when user stars it", function() {
-    expect(repeater('.nostar').count()).toBe(2);
-    expect(repeater('.star').count()).toBe(1);
+    it("should be able to add a snippet", function () {
+        expect(repeater('.snippets').count()).toBe(0);
 
-    element('.nostar:nth-child(1) span.star').click();
-    sleep(0.1);
+        input('newSnippet.title').enter('Snippet Test');
+        input('newSnippet.code').enter('var test = "test";');
+        element('.btn-primary').click();
+        sleep(1);
 
-    expect(repeater('.nostar').count()).toBe(1);
-    expect(repeater('.star').count()).toBe(2);
+        expect(repeater('.snippets').count()).toBe(1);
+    });
 
-    element('.star:nth-child(1) span.star').click();
-    sleep(0.1);
-
-    expect(repeater('.notstar').count()).toBe(2);
-    expect(repeater('.star').count()).toBe(1);
-
-  });
 });

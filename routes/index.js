@@ -6,19 +6,46 @@
 (function () {
     "use strict";
 
-    exports.index = function(snippets) {
+    exports.index = function(Snippet) {
         return function (req, res) {
-            res.render('index', {
-                title: 'The Snippet Store',
-                snippets: snippets
+            Snippet.find({}, function(error, snippets) {
+                res.render('index', {
+                    title: 'The Snippet Store',
+                    snippets : snippets
+                });
             });
         };
     };
 
-    exports.addSnippet = function (snippets) {
+    exports.create = function (Snippet) {
         return function (req, res) {
-            snippets.push(req.body);
-            res.json({snippets: snippets});
+            var snippet = new Snippet(req.body);
+            snippet.save(function(error, snippet) {
+                if (error || !snippet) {
+                    res.json({ error : error });
+                } else {
+                    res.json({ snippet : snippet });
+                }
+            });
+        };
+    };
+
+    exports.update = function(Snippet) {
+        return function(req, res) {
+            Snippet.findOne({ _id : req.params.id }, function(error, snippet) {
+                if (error || !snippet) {
+                    res.json({ error : error });
+                } else {
+                    snippet.done = req.body.done;
+                    snippet.save(function(error, snippet) {
+                        if (error || !snippet) {
+                            res.json({ error : error });
+                        } else {
+                            res.json({ todo : snippet });
+                        }
+                    });
+                }
+            });
         };
     };
 

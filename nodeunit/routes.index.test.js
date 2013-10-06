@@ -4,37 +4,31 @@
     "use strict";
     var indexRoutes = require('../routes/index.js');
 
-    exports.testAddSnippet = function (test) {
-        var snippets = [
-            {
-                title: 'Named function declaration',
-                code: 'function myFunction() {}',
-                star : true
-            }
-        ];
-
-        var fn = indexRoutes.addSnippet(snippets);
+    exports.testCreateSnippet = function (test) {
 
         var req = {
             body : {
                 title: 'Variable',
-                code: 'var number = 1;',
-                star : false
+                code: 'var number = 1;'
             }
         };
+
+        var Snippet = function(obj) {
+            this.data = obj;
+            this.save = function(callback) {
+                test.equals(obj, req.body);
+                callback(null, this);
+            };
+        };
+
+        var fn = indexRoutes.create(Snippet);
 
         var res = {
             json : function(obj) {
 
-                test.equals(snippets, obj.snippets);
-                test.equals(2, snippets.length);
+                test.equals(req.body, obj.snippet.data);
 
-                test.equals(req.body.title, snippets[1].title);
-                test.equals(req.body.code, snippets[1].code);
-                test.ok(!snippets[1].star);
-
-                // test.expect means 'expect 5 tests will be run'
-                test.expect(5);
+                test.expect(2);
                 test.done();
             }
         };

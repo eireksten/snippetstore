@@ -10,6 +10,10 @@ var path = require('path');
 var mongoose = require('mongoose');
 
 var db = mongoose.createConnection('localhost', 'snippetstore');
+var SnippetSchema = require('./models/Snippet.js').SnippetSchema;
+var Snippet = db.model('snippets', SnippetSchema);
+
+
 var app = express();
 
 // all environments
@@ -27,26 +31,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 if ('development' === app.get('env')) {
   app.use(express.errorHandler());
 }
-var snippets = [
-    {
-        title: "Sum of numbers in array",
-        code: "_.reduce(numarray, function (acc, num) {return acc + num;}, 0);",
-        star: false
-    },
-    {
-        title: "Immediate Function",
-        code: "(function () {}());",
-        star: true
-    },
-    {
-        title: "Function Factory",
-        code: "function (statement) {return function () {alert(statement);}};",
-        star: false
-    }
-];
-
-app.get('/', routes.index(snippets));
-app.post('snippet.json', routes.addSnippet(snippets));
+app.get('/', routes.index(Snippet));
+app.post('/snippet.json', routes.create(Snippet));
+app.put('/snippet/:id.json', routes.update(Snippet));
+//app.post('/snippet.json', routes.create(Snippet));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

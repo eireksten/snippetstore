@@ -6,3 +6,23 @@ body {
 a {
   color: #00B7FF;
 }
+
+div.content {
+    /*border: 1px solid lightgray;*/
+    padding: 20px;
+}
+
+div.snippet {
+    margin-bottom: 25px;
+}
+
+.snippet .title {
+    font-weight: bold;
+}
+
+form.addnew textarea {
+    width: 100%;
+    min-height: 100px;
+    border:1px solid #999999;
+    font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
