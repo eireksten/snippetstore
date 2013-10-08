@@ -1,3 +1,4 @@
+"use strict";
 
 /**
  * Module dependencies.
@@ -33,8 +34,6 @@ if ('development' === app.get('env')) {
 }
 app.get('/', routes.index(Snippet));
 app.post('/snippet.json', routes.create(Snippet));
-app.put('/snippet/:id.json', routes.update(Snippet));
-//app.post('/snippet.json', routes.create(Snippet));
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

@@ -1,5 +1,9 @@
+/*global angular */
+
 (function (global) {
     "use strict";
+
+    angular.module('SnippetModule', ['ui.bootstrap']);
 
     global.SnippetListController = function ($scope, $http) {
 
@@ -12,14 +16,6 @@
 
         $scope.setSnippets = function(snippets) {
             $scope.snippets = snippets;
-        };
-
-        $scope.update = function(snippet) {
-            $http.put('/todo/' + snippet._id + '.json', snippet).success(function(data) {
-                if (!data.snippet) {
-                    alert(JSON.stringify(data));
-                }
-            });
         };
 
         $scope.add = function() {
@@ -35,4 +31,5 @@
         };
 
     };
+
 }(this));
